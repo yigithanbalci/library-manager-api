@@ -10,6 +10,8 @@ export class CreateBookRequest {
   static to(createBookRequest: CreateBookRequest): Book {
     const book = new Book();
     book.name = createBookRequest.name;
+    book.totalScore = -1;
+    book.scoreCount = -1;
     return book;
   }
 }

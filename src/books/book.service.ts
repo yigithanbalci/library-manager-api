@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "../data-source";
 import { Book } from "../entity/book.entity";
 import { APIError } from "../errors/api.error";
+import { BookResponse } from "./dto/book.response";
 import { CreateBookRequest } from "./dto/create.book.request";
 
 const repository = AppDataSource.getRepository(Book);
@@ -23,7 +24,7 @@ export const getBookById = async (
       throw new APIError(404, "Book not found");
     }
 
-    res.status(200).json(book);
+    res.status(200).json(BookResponse.from(book));
   } catch (error) {
     //NOTE: ????????? https://expressjs.com/en/guide/error-handling.html
     // You must catch errors that occur in asynchronous code invoked by route handlers or middleware and pass them to Express for processing.
@@ -38,7 +39,7 @@ export const getAllBooks = async (
 ) => {
   try {
     const books = await repository.find();
-    res.status(200).json(books);
+    res.status(200).json((books ?? []).map((book) => BookResponse.from(book)));
   } catch (error) {
     next(error);
   }
@@ -56,7 +57,7 @@ export const createBook = async (
       throw new APIError(400, "A book already exists with the same name");
     }
     const book = await repository.save(CreateBookRequest.to(toCreate));
-    res.status(201).json(book);
+    res.status(201).json(BookResponse.from(book));
   } catch (error) {
     next(error);
   }

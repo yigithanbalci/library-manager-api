@@ -11,4 +11,10 @@ export class Book {
 
   @OneToMany(() => BookBorrowRecord, (borrowRecord) => borrowRecord.book)
   borrowRecords: BookBorrowRecord[];
+
+  @Column()
+  totalScore: number;
+
+  @Column()
+  scoreCount: number;
 }
