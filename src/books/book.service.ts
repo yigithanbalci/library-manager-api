@@ -24,7 +24,13 @@ export const getBookById = async (
       throw new APIError(404, "Book not found");
     }
 
-    res.status(200).json(BookResponse.from(book));
+    res.status(200).json({
+      ...BookResponse.from(book),
+      score:
+        book.totalScore == -1
+          ? -1
+          : (book.totalScore / book.scoreCount).toFixed(2),
+    });
   } catch (error) {
     //NOTE: ????????? https://expressjs.com/en/guide/error-handling.html
     // You must catch errors that occur in asynchronous code invoked by route handlers or middleware and pass them to Express for processing.

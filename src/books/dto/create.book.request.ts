@@ -11,7 +11,7 @@ export class CreateBookRequest {
     const book = new Book();
     book.name = createBookRequest.name;
     book.totalScore = -1;
-    book.scoreCount = -1;
+    book.scoreCount = 0;
     return book;
   }
 }
