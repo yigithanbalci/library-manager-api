@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { APIError } from "./api.error";
 
-export const errorHandler = (
+export const errorHandler = async (
   err: Error,
   req: Request,
   res: Response,
@@ -12,12 +12,12 @@ export const errorHandler = (
       message: err.message,
       statusCode: err.statusCode,
     });
-    return;
+  } else {
+    res.status(500).json({
+      message: "Internal Server Error",
+      statusCode: 500,
+    });
   }
 
   console.error(err);
-  res.status(500).json({
-    message: "Internal Server Error",
-    statusCode: 500,
-  });
 };

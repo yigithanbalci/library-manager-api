@@ -6,5 +6,6 @@ export class APIError extends Error {
     this.statusCode = statusCode;
     this.name = this.constructor.name;
     Error.captureStackTrace(this, this.constructor);
+    Object.setPrototypeOf(this, APIError.prototype);
   }
 }
