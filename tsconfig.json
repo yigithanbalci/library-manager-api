@@ -12,6 +12,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "strictPropertyInitialization": false
-  }
+    "strictPropertyInitialization": false,
+    "resolveJsonModule": true,
+    "allowJs": true
+  },
+  "include": ["src/**/*"]
 }
