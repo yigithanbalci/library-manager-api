@@ -6,6 +6,7 @@ import { User } from "../entity/user.entity";
 import { APIError } from "../errors/api.error";
 import { CreateUserRequest } from "./dto/create.user.request";
 import { ReturnBookRequest } from "./dto/return.book.request";
+import { UserResponse } from "./dto/user.response";
 
 const repository = AppDataSource.getRepository(User);
 const bookRepository = AppDataSource.getRepository(Book);
@@ -22,13 +23,16 @@ export const getUserById = async (
       throw new APIError(400, "Invalid user ID");
     }
 
-    const user = await repository.findOneBy({ id: userId });
+    const user = await repository.findOne({
+      where: { id: userId },
+      relations: ["borrowRecords", "borrowRecords.book"],
+    });
 
     if (!user) {
       throw new APIError(404, "User not found");
     }
 
-    res.status(200).json(user);
+    res.status(200).json(UserResponse.from(user));
   } catch (error) {
     //NOTE: ????????? https://expressjs.com/en/guide/error-handling.html
     // You must catch errors that occur in asynchronous code invoked by route handlers or middleware and pass them to Express for processing.
