@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { AppDataSource } from "./data-source";
 import { errorHandler } from "./errors/error.handler";
 import userRoutes from "./users/user.routes";
+import bookRoutes from "./books/book.routes";
 import "express-async-errors";
 
 const app = express();
@@ -13,6 +14,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use(express.json());
 app.use("/users", userRoutes);
+app.use("/books", bookRoutes);
 app.use(errorHandler);
 AppDataSource.initialize()
   .then(async () => {
